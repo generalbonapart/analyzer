@@ -1,26 +1,48 @@
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <time.h>
 #include "utilities.h"
 #include "photoRes.h"
 #include "joystick.h"
-
-static void sleepForMs(long long delayInMs)
-{
-	const long long NS_PER_MS = 1000 * 1000;
-	const long long NS_PER_SECOND = 1000000000;
-	long long delayNs = delayInMs * NS_PER_MS;
-	int seconds = delayNs / NS_PER_SECOND;
-	int nanoseconds = delayNs % NS_PER_SECOND;
-	struct timespec reqDelay = {seconds, nanoseconds};
-	nanosleep(&reqDelay, (struct timespec *) NULL);
-}
-
+#include "led.h"
+#include "digits.h"
 
 int main()
 {
-	while(true){
+	printf("init led:\n");
+	LED_init();
+	clearAll();
+	Digits_initialize();
+
+	for(int i=0; i<20; i++)
+	{
+		display_int(i);
+		sleepForMs(500);
+	}
+
+	display_double(9.9);
+	getchar();
+	display_double(100);
+	getchar();
+	display_double(9.76);
+	getchar();
+	for(int i=20; i<30; i++)
+	{
+		display_int(i);
+		sleepForMs(500);
+	}
+	display_double(0.9);
+	getchar();
+	display_double(7.9);
+	getchar();
+	for(int i=30; i<40; i++)
+	{
+		display_int(i);
+		sleepForMs(500);
+	}
+	display_double(0);
+	getchar();
+	
+	
+	
+	while(false){
 
 		//char c = Joystick_position();
 		//printf("x= %5.2fV \t y= %5.2fV \n", *x, *y);

@@ -2,7 +2,7 @@
 # by Brian Fraser
 
 # Edit this file to compile extra C files into their own programs.
-SOURCES = test.c joystick.c photoRes.c utilities.c
+SOURCES = test.c joystick.c photoRes.c utilities.c led.c digits.c
 TARGET = test
 
 
@@ -21,7 +21,7 @@ CFLAGS = -Wall -g -std=c99 -D _POSIX_C_SOURCE=200809L -Werror -Wshadow
 # CFLAGS += -pg
 
 all: $(SOURCES)
-	$(CC_C) $(CFLAGS) $(SOURCES) -o $(OUTDIR)/$(TARGET) -lpthread
+	$(CC_C) $(CFLAGS) $(SOURCES) -o $(OUTDIR)/$(TARGET) -lpthread -lm
 
 
 clean:
