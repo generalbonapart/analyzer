@@ -3,44 +3,24 @@
 #include "joystick.h"
 #include "led.h"
 #include "digits.h"
+#include "sampler.h"
+#include "analysis.h"
+
 
 int main()
 {
+	
 	printf("init led:\n");
 	LED_init();
 	clearAll();
 	Digits_initialize();
 
+	Sampler_init();
+	sleepForMs(1000);
 	for(int i=0; i<20; i++)
 	{
-		display_int(i);
-		sleepForMs(500);
+		start_analysis();
 	}
-
-	display_double(9.9);
-	getchar();
-	display_double(100);
-	getchar();
-	display_double(9.76);
-	getchar();
-	for(int i=20; i<30; i++)
-	{
-		display_int(i);
-		sleepForMs(500);
-	}
-	display_double(0.9);
-	getchar();
-	display_double(7.9);
-	getchar();
-	for(int i=30; i<40; i++)
-	{
-		display_int(i);
-		sleepForMs(500);
-	}
-	display_double(0);
-	getchar();
-	
-	
 	
 	while(false){
 

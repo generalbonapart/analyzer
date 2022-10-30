@@ -2,7 +2,7 @@
 # by Brian Fraser
 
 # Edit this file to compile extra C files into their own programs.
-SOURCES = test.c joystick.c photoRes.c utilities.c led.c digits.c
+SOURCES = test.c joystick.c photoRes.c utilities.c led.c digits.c sampler.c analysis.c
 TARGET = test
 
 
