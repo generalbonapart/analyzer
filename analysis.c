@@ -14,14 +14,14 @@ void handleDips(double sample)
 {
     if(currentDip == 0)
     {
-        if(sample < averageVoltage - 0.13){
+        if(sample < 0.87*averageVoltage){
             currentDip = 1;
             numDips++;
         }
     }
     else
     {
-        if(sample > averageVoltage - 0.07){
+        if(sample > 0.93*averageVoltage){
             currentDip = 0;
         }
     }
@@ -31,6 +31,9 @@ void analysis(samplerDatapoint_t* Buffer, int length){
 	maxV = maxInt = 0;
 	minInt = minV = 100.0;
 	double totalTime = 0;
+    currentDip = 0;
+    numDips = 0;
+
 	for (int i=0; i<length; i++){
 		samplerDatapoint_t sample = Buffer[i];
 		if(sample.sampleInV > maxV){ 
