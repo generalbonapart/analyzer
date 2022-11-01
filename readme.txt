@@ -1,3 +1,1 @@
-2 - x
-3 - y
-4 - z
+Light Intensity Analyzer
