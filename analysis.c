@@ -1,6 +1,12 @@
 #include "analysis.h"
 #include "sampler.h"
 #include "utilities.h"
+#include "led.h"
+
+double minMax[4]; 
+//= malloc(sizeof(double)*4);
+int dipStore[1];
+
 
 double averageVoltage = 0;
 double minV, maxV;
@@ -9,6 +15,23 @@ bool firstSample = 0;
 
 bool currentDip = 0;
 int numDips = 0;
+
+void store_vars()
+{
+	minMax[0] = maxV;
+	minMax[1] = minV;
+	minMax[2] = maxInt;
+	minMax[3] = minInt;
+	dipStore[0] = numDips;
+}
+
+int copyInfo(double* target)
+{
+	for(int i=0; i<4;i++){
+		target[i] = minMax[i];
+	}
+	return (*dipStore);
+}
 
 void handleDips(double sample)
 {
@@ -26,6 +49,7 @@ void handleDips(double sample)
         }
     }
 }
+
 
 void analysis(samplerDatapoint_t* Buffer, int length){
 	maxV = maxInt = 0;
@@ -58,7 +82,7 @@ void analysis(samplerDatapoint_t* Buffer, int length){
 }
 
 void start_analysis(){
-	long long startTime = getTimeInMs();
+	//long long startTime = getTimeInMs();
 	samplerDatapoint_t* Buffer;
 	int* length = malloc(4);
 	Buffer = Sampler_extractAllValues(length);
@@ -68,11 +92,10 @@ void start_analysis(){
 		firstSample = 1;
 	}
 	analysis(Buffer, (*length));
-
+	store_vars();
 	printf("Interval ms(%f, %f) avg=%f   Samples V (%f, %f) avg=%f Dips: %d  # Samples: %d \n", minInt, maxInt, averageInt, minV, maxV, averageVoltage, numDips, (*length) );
-	long long tookTime = getTimeInMs() - startTime;
-	if(tookTime < 1000000){
-		printf("Took time: %d\n", (int)tookTime/1000);
-		sleepForMs(1000 - tookTime/1000);
-	}
+
+	//long long tookTime = getTimeInMs() - startTime;
+	//printf("Took time: %d\n", (int)tookTime/1000);	
 }
+

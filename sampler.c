@@ -1,7 +1,6 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <pthread.h>
 
 #include "sampler.h"
 #include "utilities.h"

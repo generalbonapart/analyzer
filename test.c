@@ -6,30 +6,70 @@
 #include "sampler.h"
 #include "analysis.h"
 
+static bool isDoneRunning = false;
+
+static pthread_t idJoystick;
+//static pthread_mutex_t someMutex = PTHREAD_MUTEX_INITIALIZER;
+static void *listenToJoystick(void *_)
+{
+	while (!isDoneRunning){
+		sleepForMs(20);
+		double minMax[4];
+		int dips = copyInfo(minMax);
+		char js = Joystick_position();
+		if(js == 'C'){
+			display_int(dips);
+		}
+		else if(js == 'U'){
+			display_double(minMax[0]);
+		}
+		else if(js == 'D'){
+			display_double(minMax[1]);
+		}
+		else if(js == 'R'){
+			display_double(minMax[2]);
+		}
+		else if(js == 'L'){
+			display_double(minMax[3]);
+		}
+	}
+	return NULL;
+
+}
+
+void runApp()
+{
+	Sampler_init();
+	sleepForMs(1000);
+	pthread_create(&idJoystick, NULL, &listenToJoystick, NULL);
+	while (true)
+	{
+		bool end = 0;
+		start_analysis();
+		for(int i=0; i<10; i++){
+			if(readUser()){
+				end = 1;
+				break;
+			}
+			sleepForMs(100);
+		}
+		if(end){
+			break;
+		}
+	}
+	isDoneRunning = 1;
+	pthread_join(idJoystick, NULL);
+	Sampler_stopSampling();
+
+}
 
 int main()
 {
-	
-	printf("init led:\n");
 	LED_init();
 	clearAll();
 	Digits_initialize();
 
-	Sampler_init();
-	sleepForMs(1000);
-	for(int i=0; i<20; i++)
-	{
-		start_analysis();
-	}
-	
-	while(false){
-
-		//char c = Joystick_position();
-		//printf("x= %5.2fV \t y= %5.2fV \n", *x, *y);
-		//printf("Position: %c\n", c);
-		double res = PhotoRes_resistance();
-		printf("Resistance: %f\n", res);
-		sleepForMs(100);
-	}
+	runApp();
+	clearAll();
 	return 0;
 }

@@ -1,5 +1,27 @@
 #include "utilities.h"
 
+int readUser()
+{
+   int button = 0;
+   FILE *pFile = fopen(USER, "r");
+   if (pFile == NULL)
+   {
+      printf("ERROR: Unable to open file (%s) for read\n", USER);
+      exit(-1);
+   }
+   else
+   {
+      char buff[2];
+      fgets(buff, 2, pFile);
+      if (buff[0] == '0') // inverse the bits (by default 0 means pressed)
+      {
+         button = 1;
+      }
+      fclose(pFile);
+   }
+   return button;
+}
+
 long long getTimeInMs(void)
 {
 	struct timespec spec;
