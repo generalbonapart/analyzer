@@ -7,27 +7,6 @@
 
 extern char **head;
 
-static void runCommand(char *command)
-{
-    FILE *pipe = popen(command, "r");
-
-    char buffer[1024];
-    while (!feof(pipe) && !ferror(pipe))
-    {
-        if (fgets(buffer, sizeof(buffer), pipe) == NULL)
-            break;
-    }
-
-    int exitCode = WEXITSTATUS(pclose(pipe));
-
-    if (exitCode != 0)
-    {
-        perror("Unable to execute command:");
-        printf(" command: %s\n", command);
-        printf(" exit code: %d\n", exitCode);
-    }
-}
-
 static int rotate_right(int x)
 {
 

@@ -1,8 +1,29 @@
 #include "utilities.h"
 
-int readUser()
+void runCommand(char *command)
 {
-   int button = 0;
+    FILE *pipe = popen(command, "r");
+
+    char buffer[1024];
+    while (!feof(pipe) && !ferror(pipe))
+    {
+        if (fgets(buffer, sizeof(buffer), pipe) == NULL)
+            break;
+    }
+
+    int exitCode = WEXITSTATUS(pclose(pipe));
+
+    if (exitCode != 0)
+    {
+        perror("Unable to execute command:");
+        printf(" command: %s\n", command);
+        printf(" exit code: %d\n", exitCode);
+    }
+}
+
+bool readUser()
+{
+   bool button = 0;
    FILE *pFile = fopen(USER, "r");
    if (pFile == NULL)
    {
@@ -15,7 +36,7 @@ int readUser()
       fgets(buff, 2, pFile);
       if (buff[0] == '0') // inverse the bits (by default 0 means pressed)
       {
-         button = 1;
+        button = 1;
       }
       fclose(pFile);
    }

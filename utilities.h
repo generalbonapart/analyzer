@@ -11,7 +11,9 @@
 #define A2D_MAX_READING    4095
 #define USER "/sys/class/gpio/gpio72/value"
 
-int readUser();
+
+void runCommand(char *command);
+bool readUser();
 long long getTimeInMs(void);
 int getVoltageReading(int index);
 void sleepForMs(long long delayInMs);
