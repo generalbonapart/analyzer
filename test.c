@@ -66,11 +66,12 @@ void runApp()
 
 int main()
 {
+	Digits_initialize();
 	LED_init();
 	clearAll();
-	Digits_initialize();
 	runCommand("config-pin p8.43 gpio");
 	runApp();
 	clearAll();
+
 	return 0;
 }

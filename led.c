@@ -5,7 +5,7 @@
 
 #define BASE_ADDR "i2cset -y 1 0x70"
 
-extern char **head;
+static char **head = NULL;
 
 static int rotate_right(int x)
 {
@@ -37,6 +37,7 @@ void LED_init()
     runCommand("config-pin P9_17 i2c");
     runCommand("i2cset -y 1 0x70 0x21 0x00");
     runCommand("i2cset -y 1 0x70 0x81 0x00");
+    head = copy_head();
 }
 
 void clearAll()

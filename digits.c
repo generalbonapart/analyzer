@@ -1,7 +1,7 @@
 #include "digits.h"
 #include "utilities.h"
 
-char** head = NULL;
+static char** head = NULL;
 
 void Digits_initialize(){
 
@@ -104,9 +104,7 @@ void Digits_initialize(){
 }
 
 
-void get_digit(char** link, int digit){
+char** copy_head(){
 
-    printf("get digit start: %s\n", head[digit]);
-    *link = head[digit];
-    printf("get digit end:\n");
+    return head;
 }

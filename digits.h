@@ -2,6 +2,6 @@
 #define DIGITS_H
 
 void Digits_initialize();
-void get_digit(char** link, int digit);
+char** copy_head();
 
 #endif
