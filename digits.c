@@ -5,7 +5,6 @@ static char** head = NULL;
 
 void Digits_initialize(){
 
-    printf("init digits start:\n");
     head = malloc(sizeof(char*)*10);
     for(int i=0; i<10; i++){
 
@@ -100,11 +99,19 @@ void Digits_initialize(){
     head[9][5] = 0b001;
     head[9][6] = 0b101;
     head[9][7] = 0b010;
-    printf("init digits finish:\n");
-}
 
+}
 
 char** copy_head(){
 
     return head;
+}
+
+void Digits_cleanup()
+{
+    for(int i=0; i<10; i++)
+    {
+        free(head[i]);
+    }
+    free(head);
 }

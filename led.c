@@ -23,7 +23,6 @@ static int rotate_right(int x)
 
 static void setRowBits(int row, int bits)
 {
-
     char command[50];
     row = (8 - row) * 2;
     sprintf(command, "i2cset -y 1 0x70 %d %d", row, bits);
@@ -32,7 +31,6 @@ static void setRowBits(int row, int bits)
 
 void LED_init()
 {
-
     runCommand("config-pin P9_18 i2c");
     runCommand("config-pin P9_17 i2c");
     runCommand("i2cset -y 1 0x70 0x21 0x00");
@@ -48,19 +46,19 @@ void clearAll()
     }
 }
 
-void checkBits()
-{
+// static void checkBits()
+// {
 
-    for (int i = 1; i < 9; i++)
-    {
-        int bits = pow(2.0, i - 1);
-        bits = rotate_right(bits);
-        setRowBits(i, bits);
-        printf("Bits: %d\n", bits);
-        sleepForMs(500);
-        bits++;
-    }
-}
+//     for (int i = 1; i < 9; i++)
+//     {
+//         int bits = pow(2.0, i - 1);
+//         bits = rotate_right(bits);
+//         setRowBits(i, bits);
+//         printf("Bits: %d\n", bits);
+//         sleepForMs(500);
+//         bits++;
+//     }
+// }
 
 static void display_digit(int x)
 {
@@ -87,6 +85,7 @@ static void display_2digit(int dozen, int digit)
 
 void display_int(int x)
 {
+    x = x%99;
     if (x < 10)
     {
         display_digit(x);
@@ -106,6 +105,7 @@ void display_double(double x)
         display_2digit(9,9);
     }
     else{
+        x = round(x*10.0)/10.0;
         int dozen = x;
         int digit = (x*10);
         digit = digit%10;

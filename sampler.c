@@ -36,7 +36,6 @@ static void *fillBuffer(void *_)
         sleepForMs(1);
 
     }
-    printf("Fill thread exiting...\n");
     return NULL;
 }
 

@@ -1,14 +1,14 @@
 #include "joystick.h"
 #include "utilities.h"
 
-int digital_position(double* t){
+static int digital_position(double* t){
 
     if((*t) > 1.35){ return 1;}
     else if((*t) < 0.45){ return -1;}
     else{ return 0;}
 }
 
-void Joystick_readXY(double* x, double* y){
+static void Joystick_readXY(double* x, double* y){
     
 	int reading_x = getVoltageReading(2);
 	double voltage_x = ((double)reading_x / A2D_MAX_READING) * A2D_VOLTAGE_REF_V;
@@ -24,11 +24,12 @@ char Joystick_position(){
     double* x = malloc(sizeof(double));
 	double* y = malloc(sizeof(double));
 
+    
 	Joystick_readXY(x, y);
-
+    
     int x_dig = digital_position(x);
     int y_dig = digital_position(y);
-
+    
     if(x_dig==0){ 
         if(y_dig == 0){
             return 'C';
@@ -62,5 +63,6 @@ char Joystick_position(){
             return 'U';
         }
     }
-
+    free(x);
+    free(y);
 }

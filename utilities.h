@@ -1,3 +1,4 @@
+//This module has all common functions
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
